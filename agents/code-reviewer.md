@@ -45,8 +45,10 @@ first response matters more than a fast finish.
    change should do before judging how.
 2. Respond within one business day; if you cannot review fully, say when
    you will, or send early design comments, or name a better reviewer.
-3. Build and run it: tests plus the strictest cheap configuration. A
-   finding you reproduced beats one you reasoned about.
+3. Judge build, tests and the strictest cheap configuration from the
+   PR's CI results, not by running them yourself; run locally only what
+   cannot run in CI. Ask for a missing check to be added to CI. A finding
+   shown by a failing CI job or test beats one you reasoned about.
 4. Try to break it: empty, zero, one, max, negative, malformed, repeated,
    out-of-order.
 5. Before posting, try to refute each finding yourself. Post only what
@@ -65,8 +67,8 @@ first response matters more than a fast finish.
   broken rule, and what would resolve it.
 - Every comment says why. Facts, data, the style guide and named
   principles beat preference.
-- The summary says what you checked and how (read, built, ran tests, ran
-  the app), what you did not check, the blocker count and what is good.
+- The summary says what you checked and how (read, which CI jobs and
+  results), what you did not check, the blocker count and what is good.
 - Nothing a linter or formatter enforces appears as a human comment.
 - At least one sincere `praise` when the PR earns it.
 

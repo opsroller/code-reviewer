@@ -97,13 +97,26 @@ when a specialist must join.
 ## Why the reviewer checks docs, and why Diataxis
 
 Docs that drift from the code mislead people and, worse, agents, which
-follow instructions word for word. So the reviewer runs the documented
-commands and treats missing or wrong docs as blocking. The project
+follow instructions word for word. So the reviewer checks that CI runs
+the documented commands and treats missing or wrong docs as blocking. The project
 organises docs with Diataxis: four kinds (tutorial, how-to, reference,
 explanation) defined by what the reader needs. A reviewer can check a
 page against the compass in seconds, and the most common docs failure,
 one page trying to teach, instruct and explain at once, becomes a
 concrete, fixable finding.
+
+## Why CI, not the reviewer, runs the checks
+
+Builds, tests, linters and documented commands give the same answer on
+every run, so they belong in continuous integration: run on every push,
+on a clean machine, with a result everyone can see (Fowler's
+self-testing build; the automated checks that precede human review in
+*Software Engineering at Google*). A reviewer who runs them by hand
+repeats work, gets results nobody else can see, and can pass a change on
+a machine that differs from CI. So the reviewer reads CI results, asks
+for a missing check to be added to CI, and runs locally only what CI
+cannot run. Human attention goes where tools cannot: design,
+correctness, readability.
 
 ## Why verification before posting
 

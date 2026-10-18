@@ -13,11 +13,12 @@ docs present, true, and following Diataxis.
    change, its Diataxis kind (from the compass) and whether the PR
    contains that page. A missing page for a code, asset or behaviour
    change is 🔴 Blocking.
-3. **Check the docs match the tree.** The agent runs the commands the
-   changed docs give, on a clean checkout. A failing command is 🔴.
+3. **Check the docs match the tree.** The agent reads the CI results
+   for the commands the changed docs give. A failing command is 🔴; one
+   no CI job runs is a finding asking for it in CI.
 4. **Read the per-page checklist results.** For each touched page: one
    kind only, title pattern ("How to …", "About …"), reference structure,
-   tutorial was run, landing pages introduce and group.
+   tutorial is run by CI, landing pages introduce and group.
 5. **If the project has its own docs guide**, name it ("use
    docs/explanation/about-our-docs.md"); its checklist wins over the
    plugin's.

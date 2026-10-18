@@ -18,7 +18,7 @@ domain-reviewer rules.
 | Section | Contents |
 |---|---|
 | Stack | Languages, frameworks and versions; style guides and where they live. |
-| Commands | Build, lint, format, type-check, test, sanitizer or strict builds, and how to run the app. Don't review what these enforce. |
+| Commands | Build, lint, format, type-check, test, sanitizer or strict builds, and how to run the app, each with the CI job that runs it. Don't review what these enforce. |
 | Architecture | Layers and modules, forbidden dependencies, contracts between areas, owners per area. |
 | Project rules | License (and header or SPDX convention for new files and manifests), documentation framework (e.g. Diataxis) and docs layout, commit convention, merge method, PR size limit, required checks, owned paths per role. |
 | Security model | Trust boundaries, sensitive data, auth model, dependency and disclosure policy. |
@@ -30,9 +30,9 @@ domain-reviewer rules.
 
 1. **Read** the project's `CLAUDE.md`, profile, README, CONTRIBUTING,
    CI config, linters and formatter configs, and docs index.
-2. **Run** the documented commands on a clean checkout; record what
-   works and fix the notes (or file an issue) where docs disagree with
-   the tree.
+2. **Map** each documented command to the CI job that runs it, from the
+   CI config and recent runs; record what passes, and file an issue for
+   each command no CI job runs and where docs disagree with the tree.
 3. **Skim** recent merged PRs and their review threads for repeated
    findings.
 4. **Write** the notes as reference: describe, don't instruct or argue;
@@ -60,7 +60,7 @@ reference.
 ## Failure modes
 
 - Copying the style guide into the notes; it drifts.
-- Notes that name commands nobody has run.
+- Notes that name commands no CI job runs.
 - A pitfall list that only grows; nobody reads 80 entries.
 - Leaving out the project rules (license, docs framework), then missing a
   template license or an unstructured docs page in review.

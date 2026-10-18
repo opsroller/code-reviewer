@@ -15,10 +15,15 @@ repo, such as "how we bind native code" or "our threading model".
 1. **Read the intent first.** Read the PR title, description and linked
    task. Know what the change is supposed to do before you judge how it does
    it.
-2. **Build and run it yourself.** Run the tests, plus the strictest
-   configuration that is cheap: extra warnings and sanitizers for native
-   code, strict type checking for typed languages. A finding you reproduced
-   beats one you reasoned about.
+2. **Judge deterministic checks from CI.** Build, tests, linters, type
+   checks, sanitizer and strict builds, and documented commands are read
+   from the PR's CI results on its current head, not run by hand. Run
+   something locally only when it cannot run in CI (for example, it needs
+   hardware CI does not have), and say so in the summary. A check the
+   review needs that CI does not run is a finding asking for it in CI:
+   🔴 when the change's correctness rests on it, 🟡 otherwise. A finding
+   shown by a failing CI job or test beats one you reasoned about; to
+   show one, suggest the failing test so CI runs it.
 3. **Try to break it.** Probe the edges: empty, zero, one, max, negative,
    malformed input, a repeated call, a call in the wrong order.
 4. **Comment where the code is.** Use inline comments, one issue per
@@ -122,8 +127,8 @@ repo, such as "how we bind native code" or "our threading model".
 
 ### Docs and project hygiene
 - Docs, contracts and agent instructions match the code as it actually
-  is: real paths, real names, real CI. Run every documented command on a
-  clean checkout; agents follow docs literally.
+  is: real paths, real names, real CI. Every documented command is run
+  by a CI job; agents follow docs literally.
 - License: every file, manifest and LICENSE uses the license the
   project's rules require (no defaulting to a template's license);
   headers and notices are present and consistent.
@@ -136,7 +141,7 @@ repo, such as "how we bind native code" or "our threading model".
     read with "About ..."; reference mirrors the structure of the code
     or product and matches its sibling pages' format.
   - Tutorials follow one fixed path, show expected output at each step,
-    and were actually run.
+    and are run by CI.
   - Index and README pages introduce and group content; group lists
     longer than about seven items.
   - No empty per-kind docs folders created ahead of content.
