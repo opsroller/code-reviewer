@@ -1,0 +1,14 @@
+{
+  "name": "code-reviewer",
+  "version": "0.1.0",
+  "description": "Code reviewer: reviews pull requests for design, correctness, tests, security, performance and readability, with labelled comments and a clear verdict.",
+  "author": {
+    "name": "opsroller"
+  },
+  "repository": "https://github.com/opsroller/code-reviewer",
+  "license": "MIT",
+  "keywords": [
+    "role",
+    "job-function"
+  ]
+}
