@@ -78,3 +78,13 @@
 23. **The team's code review checklist** (project document,
     `code-review/review-checklist.md`) - severity scheme, output rules,
     and the checklist in `skills/review-pr/checklist.md`.
+24. **Martin Fowler, Continuous Integration** -
+    https://martinfowler.com/articles/continuousIntegration.html -
+    self-testing build, every push built on an integration machine,
+    results visible to everyone.
+25. **Winters, Manshreck and Wright, Software Engineering at Google**,
+    chapters 9 (Code Review) and 19 (Critique) -
+    https://abseil.io/resources/swe-book/html/ch09.html,
+    https://abseil.io/resources/swe-book/html/ch19.html -
+    automated checks run before and alongside human review, so reviewers
+    spend attention on what tools cannot judge.

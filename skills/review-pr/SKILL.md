@@ -42,11 +42,13 @@ take theirs.
 4. **Everything else**, in a logical order, skipping nothing. Read every
    line of human-written code; scan generated code and data files. Look
    beyond the diff: the whole function, the whole file, the callers.
-5. **Run it.** Build, run the tests and the strictest cheap configuration
-   (extra warnings, sanitizers, strict type checking). Run the commands
-   the docs tell people to run, on a clean checkout: docs must match the
-   tree. For user-facing
-   changes run the app or ask for a demo, screenshots or a recording.
+5. **Read CI.** Judge the build, the tests, the strictest cheap
+   configuration (extra warnings, sanitizers, strict type checking) and
+   the commands the docs tell people to run from the PR's CI results on
+   its current head (checklist step 2). A check you need that CI does not
+   run is a finding asking for it in CI, not a command to run yourself.
+   For user-facing changes use the screenshots or recordings CI produces,
+   or ask for a demo.
 6. **Try to break it.** Empty, zero, one, max, negative, malformed, a
    repeated call, a call in the wrong order, a failure halfway through.
 
@@ -73,8 +75,8 @@ Skip a pass only when the PR cannot touch it, and say so in the summary.
 
 For every finding that would be 🔴 or 🟡 Should fix:
 
-1. Find the realistic path that triggers it (input → wrong result). Run it
-   if you can.
+1. Find the realistic path that triggers it (input → wrong result). Show
+   it with a CI result, or suggest the failing test so CI runs it.
 2. Try to refute it: is it guarded elsewhere, impossible by contract, or
    already tested? Read the caller.
 3. If it survives, write it up. If you are unsure, post it as a
@@ -102,8 +104,10 @@ the project:
 
 - Reading in file order and missing that the design is wrong.
 - Reviewing only the diff, not the code around it.
-- Reasoning about a bug you could have reproduced in two minutes.
+- Reasoning about a bug a short failing test would show.
+- Running by hand a check that CI runs, or that belongs in CI.
 - Spending the session on naming while a data-loss path goes unseen.
 - A 1,000-line PR reviewed in one sitting: comments trail off after line
   400 and the summary claims full coverage.
-- Rubber-stamping: approval without having run or read the change.
+- Rubber-stamping: approval without having read the change and its CI
+  results.

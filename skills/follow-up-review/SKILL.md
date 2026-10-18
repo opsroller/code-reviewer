@@ -16,9 +16,9 @@ standard": resolving conflicts) and the team checklist.
 2. **Review the fix, not the whole PR again.** Read the commits since your
    last review (fixes pushed as separate commits help). Check each of your
    threads: is it fixed, answered, or declined with a reason?
-3. **Check that fixes did not break something else.** Re-run the tests
-   and the reproduction for each 🔴; re-check the cross-PR picture if the
-   base moved.
+3. **Check that fixes did not break something else.** Read CI on the new
+   head: the tests pass and each 🔴's failing test now passes; re-check
+   the cross-PR picture if the base moved.
 4. **Resolve threads** that are addressed. Leave open the ones that are
    not, with one line on what is still missing.
 5. **Leave one review for the round** (`review-comments`), with the

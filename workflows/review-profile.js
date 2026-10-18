@@ -6,7 +6,7 @@ export const meta = {
     { title: 'Survey', detail: 'one agent per section of the notes, read-only' },
     { title: 'Plan docs', detail: 'compass: confirm the page kinds this work produces' },
     { title: 'Do docs', detail: 'one agent writes the notes page and the index link' },
-    { title: 'Check docs', detail: 'one Diataxis kind per touched page; commands really run' },
+    { title: 'Check docs', detail: 'one Diataxis kind per touched page; each command names its CI job' },
   ],
 }
 
@@ -120,7 +120,7 @@ const CHECK = { type: 'object', properties: { ok: { type: 'boolean' }, problems:
 
 const SECTIONS = [
   ['Stack', 'languages, frameworks and versions; style guides and where they live'],
-  ['Commands', 'build, lint, format, type-check, test, strict or sanitizer builds, run the app. Run each documented command on a clean checkout and record what actually works'],
+  ['Commands', 'build, lint, format, type-check, test, strict or sanitizer builds, run the app. Map each documented command to the CI job that runs it, from the CI config and recent runs, and record what passes and which commands no job runs'],
   ['Architecture', 'layers and modules, forbidden dependencies, contracts between areas, owners per area'],
   ['Project rules', 'license and the header or SPDX convention for new files and manifests; documentation framework (e.g. Diataxis) and docs layout; commit convention; merge method; PR size limit; required checks; owned paths per role'],
   ['Security model', 'trust boundaries, sensitive data, auth model, dependency and disclosure policy'],
@@ -145,7 +145,7 @@ const done = await agent(`Follow the review-profile skill, steps 4-6, in ${repo}
 if (!done) return { status: 'blocked', error: 'writer returned no result', sections }
 
 phase('Check docs')
-const check = await agent(`Follow the docs-review skill, sections 2-3, on ${JSON.stringify(done.pages_touched)} in ${repo}: one Diataxis kind per page (the notes are reference: no instructions, no why), title and opening line, linked from the index, and every command listed was really run.`, { schema: CHECK, phase: 'Check docs', label: 'check', independent: true })
+const check = await agent(`Follow the docs-review skill, sections 2-3, on ${JSON.stringify(done.pages_touched)} in ${repo}: one Diataxis kind per page (the notes are reference: no instructions, no why), title and opening line, linked from the index, and every command listed names the CI job that runs it.`, { schema: CHECK, phase: 'Check docs', label: 'check', independent: true })
 
 return {
   status: check && check.ok ? 'done' : 'needs-fixes',
