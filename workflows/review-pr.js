@@ -71,7 +71,7 @@ if (t.decision !== 'review') {
 phase('Plan docs')
 const docsPlan = await agent(`Follow the docs-review skill, section 1, on ${target} (intent: ${t.intent}). Apply this to the PR rather than writing docs yourself: "${DOCS_FRAGMENT}" For each user-visible change, report the doc kind it owes and whether the PR already contains that page.`, { schema: DOCS_PLAN, phase: 'Plan docs', label: 'docs-plan' })
 const owed = (docsPlan && docsPlan.owed) || []
-const missingDocs = owed.filter(o => !o.present_in_pr)
+const missingDocs = docsPlan ? owed.filter(o => !o.present_in_pr) : [{ change: 'docs plan did not run', kind: 'unverified', present_in_pr: false }]
 
 // Passes
 const PASSES = [
