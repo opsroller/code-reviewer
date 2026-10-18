@@ -1,14 +1,19 @@
 {
   "name": "code-reviewer",
   "version": "0.1.0",
-  "description": "Code reviewer: reviews pull requests for design, correctness, tests, security, performance and readability, with labelled comments and a clear verdict.",
+  "description": "Code reviewer role: reviews pull requests for design, correctness, tests, security, performance and documentation (Diataxis), writes Conventional Comments with severity labels, gives one verdict per round and follows up until the change lands.",
   "author": {
     "name": "opsroller"
   },
   "repository": "https://github.com/opsroller/code-reviewer",
-  "license": "MIT",
+  "license": "GPL-2.0-or-later",
   "keywords": [
     "role",
-    "job-function"
+    "job-function",
+    "code-review",
+    "pull-request",
+    "conventional-comments",
+    "owasp",
+    "diataxis"
   ]
 }
