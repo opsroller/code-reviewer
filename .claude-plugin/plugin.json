@@ -1,6 +1,6 @@
 {
   "name": "code-reviewer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Code reviewer role: reviews pull requests for design, correctness, tests, security, performance and documentation (Diataxis), writes Conventional Comments with severity labels, gives one verdict per round and follows up until the change lands.",
   "author": {
     "name": "opsroller"
