@@ -144,7 +144,7 @@ const plan = await agent(`Follow docs-review section 1 on the commits since the 
 const missingDocs = plan ? (plan.owed || []).filter(o => !o.present_in_pr) : [{ change: 'docs plan did not run', kind: 'unverified', present_in_pr: false }]
 
 const checked = await pipeline(st.threads,
-  th => agent(`Follow the follow-up-review skill, "Re-review a round of fixes" and "Handle pushback", for this thread on ${target}. Review the fix, not the whole PR. For blocking items, read CI on the new head: the failing test now passes. If the author declined, judge their argument on facts and principles. Report new findings only if the fix introduced them.${st.base_moved ? ' The base moved: re-check the change against the current base and other open PRs.' : ''}\n${JSON.stringify(th)}`, { schema: THREAD, phase: 'Check threads', label: `thread:${th.id}` })
+  th => agent(`Follow the follow-up-review skill, "Re-review a round of fixes" and "Handle pushback", for this thread on ${target}. Review the fix, not the whole PR. Re-run the reproduction for blocking items. If the author declined, judge their argument on facts and principles. Report new findings only if the fix introduced them.${st.base_moved ? ' The base moved: re-check the change against the current base and other open PRs.' : ''}\n${JSON.stringify(th)}`, { schema: THREAD, phase: 'Check threads', label: `thread:${th.id}` })
     .then(r => Object.assign({}, th, r ? r : { status: 'still-open', note: 'thread check returned no result; treated as open, unverified', unverified: true })))
 
 const open = checked.filter(c => c.status === 'still-open' || c.status === 'regressed')
