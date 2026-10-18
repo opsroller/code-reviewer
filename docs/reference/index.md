@@ -46,7 +46,7 @@ review notes.
 | Field | Value |
 |---|---|
 | `name` | `code-reviewer` |
-| `version` | `0.1.0` |
+| `version` | `0.2.0` |
 | `author.name` | `opsroller` |
 | `repository` | `https://github.com/opsroller/code-reviewer` |
 | `license` | `GPL-2.0-or-later` |

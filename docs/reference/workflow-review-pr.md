@@ -50,3 +50,13 @@ If triage does not return `review`, the output is `{ verdict, triage, note }`.
 - A pass that returns no result is reported in coverage as not checked.
 - Optional, praise, question and note findings are not verified.
 - Only one agent edits the review notes page.
+
+## Run modes
+
+Run modes v1. Besides its own args, the workflow takes the optional `run` arg defined in the engineering-practices
+[workflow run modes reference](https://github.com/opsroller/engineering-practices/blob/main/docs/reference/workflow-run-modes.md):
+`run: { mode: "inline" }` runs every phase in the calling session with no subagents, `run.only` runs chosen phases or steps,
+and `run.from` with `run.results` resumes a stopped run. Without `run`, the workflow and its outputs are as above.
+See [how to run a workflow inline](https://github.com/opsroller/engineering-practices/blob/main/docs/how-to/how-to-run-a-workflow-inline.md).
+
+Step labels, for `run.only` and `run.results`: `triage`, `docs-plan`, `pass:<dimension>` (`pass:design`, `pass:correctness`, `pass:tests`, `pass:security`, `pass:performance`, `pass:readability`, `pass:build-cross-pr`, `pass:docs-hygiene`), `verify:<file>:<line>` (one per finding), `review`, `review-notes`, `docs-check`.
