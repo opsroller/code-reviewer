@@ -78,10 +78,8 @@ What's good: <one or two lines>
 Blocking items:
 1. <file:line> <subject>
 
-Checked: <read every line / CI jobs and results on the head commit /
-cross-PR check against the base and open PRs>
-Missing from CI: <checks the review needed that CI does not run>
-Run locally: <only what cannot run in CI, and why>
+Checked: <read every line / built / ran tests / ran the app / ran the
+documented commands / cross-PR check against the base and open PRs>
 Not checked: <parts or areas, and who should>
 ```
 

@@ -32,7 +32,7 @@ What each kind of work usually owes:
 | New feature or system | reference for its interface; explanation if a design choice was made; how-to if users must do something new |
 | Bug fix | reference update if behaviour changed; a troubleshooting how-to if users hit it |
 | Decision between alternatives | an explanation page (ADR style) |
-| New onboarding path | a tutorial, run from a clean start in CI |
+| New onboarding path | a tutorial, tested from a clean start |
 | Changed build, test, run or release steps | the how-to and README that describe them |
 | Deleted or deprecated code | its docs deleted or marked deprecated |
 
@@ -41,10 +41,9 @@ What each kind of work usually owes:
 
 ## 2. Do the docs match the tree?
 
-- Every command the changed docs (and README, CONTRIBUTING, agent
-  instructions) tell people to run passes in a CI job on a clean
-  checkout; read the job's result. A command no CI job runs is a finding
-  asking for it in CI. Agents follow docs word for word.
+- Run every command the changed docs (and README, CONTRIBUTING, agent
+  instructions) tell people to run, on a clean checkout. Agents follow
+  docs word for word.
 - Paths, names, flags, config keys and CI job names in docs exist.
 - Reference generated from source was regenerated.
 
@@ -63,7 +62,7 @@ reader or agent do the wrong thing.
 - [ ] **Reference mirrors the structure** of the code or product (one page
   per module, command, spec) and matches its sibling pages' format.
 - [ ] **Tutorials have one fixed path**, expected output at each step, no
-  options or alternatives, and are run from a clean start by CI.
+  options or alternatives, and were actually run from a clean start.
 - [ ] **How-tos are action only**, may branch for real situations, link
   to reference for option lists, and skip what any competent user knows.
 - [ ] **Explanation is bounded** by a topic or "why" question, gives
@@ -83,9 +82,8 @@ reader or agent do the wrong thing.
   belong to ("these three paragraphs are explanation; move them to an
   About page and link"). 🟡 Should fix, or 🔴 if the page misleads.
 - Bad title: suggest the patterned title. 🟡 Should fix.
-- Tutorial or command that fails in CI: 🔴 Blocking, with the failing
-  job and output. One that no CI job runs: ask for it in CI, 🔴 when the
-  PR adds or changes it.
+- Untested tutorial or command that fails: 🔴 Blocking, with the failing
+  step and output.
 - Do not rewrite the docs yourself; say what kind the text is and where
   it goes. Small wording suggestions in a suggestion block are fine.
 
