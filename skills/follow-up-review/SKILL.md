@@ -1,6 +1,6 @@
 ---
 name: follow-up-review
-description: Use after the author responds to a review: re-review the fixes, settle pushback, resolve threads, give the next round's verdict, and open a follow-up task for the owner when a PR merged with findings still open.
+description: 'Use after the author responds to a review: re-review the fixes, settle pushback, resolve threads, give the next round''s verdict, and open a follow-up task for the owner when a PR merged with findings still open.'
 ---
 
 # Follow-up review

@@ -1,6 +1,6 @@
 ---
 name: review-pr
-description: Use to review a pull request in full after triage says "review": the reading order, the passes, how to verify findings, and the team checklist in checklist.md.
+description: 'Use to review a pull request in full after triage says "review": the reading order, the passes, how to verify findings, and the team checklist in checklist.md.'
 ---
 
 # Review a pull request

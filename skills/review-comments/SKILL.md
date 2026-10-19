@@ -1,6 +1,6 @@
 ---
 name: review-comments
-description: Use when writing review comments and the round's single review: Conventional Comments labels combined with the team's severity scheme (🔴 Blocking, 🟡 Should fix, 🟡 (optional)), tone, the summary and the verdict.
+description: 'Use when writing review comments and the round''s single review: Conventional Comments labels combined with the team''s severity scheme (🔴 Blocking, 🟡 Should fix, 🟡 (optional)), tone, the summary and the verdict.'
 ---
 
 # Review comments and verdict
