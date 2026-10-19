@@ -113,7 +113,7 @@ const focus = args.focus ? `\nExtra focus from the requester: ${args.focus}` : '
 const post = args.post === true
 const shared = args.sharedAccount === true
 const notes = args.notes === undefined ? 'pr' : args.notes
-if (notes !== 'pr' && notes !== 'verdict') return `notes must be "pr" or "verdict", got "${notes}"`
+if (notes !== 'pr' && notes !== 'verdict') return `notes must be "pr" or "verdict", got ${JSON.stringify(notes)}`
 
 const DOCS_FRAGMENT = 'Classify every user-visible change in this work with the Diataxis compass (action/cognition x study/work). For each, update or add exactly one page of that kind under docs/<kind>/, keep each page to one kind, title it by the project pattern, and link to the related pages of the other kinds. Report pages touched and any change you left undocumented and why.'
 

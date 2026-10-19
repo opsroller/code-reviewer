@@ -13,6 +13,8 @@ File: `workflows/re-review.js`. Invoke as `/code-reviewer:re-review`.
 | `sharedAccount` | boolean | no | `false` | Comment review starting "Passed" or "Changes needed" |
 | `notes` | `"verdict"` or `"pr"` | no | `"verdict"` | Where repeated findings go. `"verdict"`: the review summary and the output; no file is edited and no PR is opened. `"pr"`: the review notes page, with a docs PR if the project requires one |
 
+Missing `pr` returns a usage string; any other `notes` value returns an error string.
+
 ## Phases
 
 | Phase | Agents | Skill |
