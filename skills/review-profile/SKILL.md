@@ -1,6 +1,6 @@
 ---
 name: review-profile
-description: Use when a project has no reviewer notes yet, when they are stale, or when the same finding has appeared in two reviews: builds and maintains the project-specific half of the review as a reference page in the project's docs.
+description: 'Use when a project has no reviewer notes yet, when they are stale, or when the same finding has appeared in two reviews: builds and maintains the project-specific half of the review as a reference page in the project''s docs.'
 ---
 
 # Review profile

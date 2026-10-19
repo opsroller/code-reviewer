@@ -1,6 +1,6 @@
 ---
 name: docs-review
-description: Use for the documentation pass of every review: check that a change ships with the docs it owes in the same PR, that docs match the tree, and that each touched page follows Diataxis (one kind per page, title patterns, landing pages).
+description: 'Use for the documentation pass of every review: check that a change ships with the docs it owes in the same PR, that docs match the tree, and that each touched page follows Diataxis (one kind per page, title patterns, landing pages).'
 ---
 
 # Docs review
