@@ -32,6 +32,11 @@ review with a verdict.
    should have shipped (blocking findings). `review_notes` lists pages the
    reviewer updated; `docs_check` must be `ok`.
 
+To keep the review from editing the review notes or opening a docs PR, add
+`notes: "verdict"`. The repeated findings then appear in the review
+summary and in the result's `pitfalls`, for whoever owns the review notes
+to add later.
+
 For a single pass without the workflow, ask the `code-reviewer` agent
 directly ("review PR #123 for security only") and it follows the matching
 skill.

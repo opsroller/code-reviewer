@@ -11,6 +11,9 @@ File: `workflows/re-review.js`. Invoke as `/code-reviewer:re-review`.
 | `pr` | string | yes | | `owner/repo#N` |
 | `post` | boolean | no | `false` | Post the review and resolve fixed threads |
 | `sharedAccount` | boolean | no | `false` | Comment review starting "Passed" or "Changes needed" |
+| `notes` | `"verdict"` or `"pr"` | no | `"verdict"` | Where repeated findings go. `"verdict"`: the review summary and the output; no file is edited and no PR is opened. `"pr"`: the review notes page, with a docs PR if the project requires one |
+
+Missing `pr` returns a usage string; any other `notes` value returns an error string.
 
 ## Phases
 
@@ -20,8 +23,8 @@ File: `workflows/re-review.js`. Invoke as `/code-reviewer:re-review`.
 | Plan docs | 1 | `docs-review` section 1 on the new commits |
 | Check threads | 1 per open thread | `follow-up-review` |
 | Review | 1 | `review-comments`; merged PR: follow-up task for the owner |
-| Do docs | 1 | `review-profile`, `follow-up-review` |
-| Check docs | 0 or 1 | `docs-review` section 3 |
+| Do docs | 1 | `review-profile`, `follow-up-review`; with `notes: "verdict"` (the default) it runs before Review and edits nothing |
+| Check docs | 0 or 1 | `docs-review` section 3; only with `notes: "pr"` |
 
 ## Output
 
@@ -31,7 +34,7 @@ File: `workflows/re-review.js`. Invoke as `/code-reviewer:re-review`.
 | `verdict` | `approve`, `request-changes`, `comment` or `follow-up-opened` |
 | `open_items` | Threads still open or regressed |
 | `follow_up` | Owner's follow-up task, for merged PRs |
-| `docs_owed_missing`, `docs`, `docs_check` | Documentation results |
+| `docs_owed_missing`, `docs`, `docs_check` | Documentation results. With `notes: "verdict"`, `docs` is `{ pages_touched: [], owed_by_author, pitfalls }` and the same lines are in the review summary under "Pitfalls for the review notes" |
 
 ## Behaviour rules
 

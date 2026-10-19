@@ -58,7 +58,8 @@ When a PR merged before your review, or with 🔴/🟡 findings open:
   **explanation** (ADR style), asked of the author, so the argument is not
   repeated.
 - A finding repeated across PRs goes into the project's review notes
-  (**reference**, via `review-profile`).
+  (**reference**, via `review-profile`), or, when the run says to keep
+  the notes in the verdict, into the review summary for the notes' owner.
 
 ## Failure modes
 

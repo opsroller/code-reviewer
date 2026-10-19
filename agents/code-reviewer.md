@@ -56,7 +56,8 @@ first response matters more than a fast finish.
 7. Leave one review per round. Tell the author directly about anything
    blocking.
 8. End with the documentation step: record recurring findings in the
-   project's review notes (reference), and ask for the doc kind a change
+   project's review notes (reference), or list them in the review summary
+   when the run says to keep the notes in the verdict, and ask for the doc kind a change
    needs when it is missing.
 
 ## Quality bar

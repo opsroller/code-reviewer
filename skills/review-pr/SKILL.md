@@ -93,7 +93,9 @@ A review checks the PR's docs (`docs-review`: the change must ship with
 the doc kinds it owes, in the same PR) and produces docs of its own in
 the project:
 - a finding that has now appeared in two reviews becomes a pitfall in the
-  project's review notes, a **reference** page (`review-profile`);
+  project's review notes, a **reference** page (`review-profile`), or is
+  listed in the review summary when the run says to keep the notes in the
+  verdict;
 - a design decision argued out in the thread is requested from the author
   as an **explanation** page (ADR style) or a code comment, so the next
   reader has it.
