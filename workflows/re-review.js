@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 export const meta = {
   name: 're-review',
-  description: 'Follow up a review round: check each open thread against the new commits, verify fixes, settle pushback, leave one review with the new verdict, and open a follow-up task for the owner if the PR already merged with findings open; ends with the documentation step. args: { pr: "<owner/repo#N>", post?: true to post and resolve threads (default: return the draft), sharedAccount?: true when reviewer and author post from one account }',
+  description: 'Follow up a review round: check each open thread against the new commits, verify fixes, settle pushback, leave one review with the new verdict, and open a follow-up task for the owner if the PR already merged with findings open; ends with the documentation step. args: { pr: "<owner/repo#N>", post?: true to post and resolve threads (default: return the draft), sharedAccount?: true when reviewer and author post from one account, notes?: "verdict" (default: edit nothing, open no PR: pitfalls and owed explanation pages go in this round\'s review and the result) or "pr" (write repeated findings to the project review notes and open or update a docs PR) }',
   phases: [
     { title: 'Collect', detail: 'open threads, new commits, merge state' },
     { title: 'Plan docs', detail: 'compass: doc kinds owed by the new commits' },
     { title: 'Check threads', detail: 'one agent per open thread (follow-up-review)' },
     { title: 'Review', detail: 'one review for the round, or the merged-PR follow-up' },
-    { title: 'Do docs', detail: 'settled decisions and repeated findings into project docs' },
+    { title: 'Do docs', detail: 'settled decisions and repeated findings: into the review before Review (notes "verdict", default) or into project docs (notes "pr")' },
     { title: 'Check docs', detail: 'one Diataxis kind per touched page' },
   ],
 }
@@ -104,11 +104,13 @@ if (RUN.error) return RUN.error
 const RUN_OUT = await Promise.race([RUN.halted, (async (agent, phase, log) => {
 // --- run-modes v2 end (workflow body follows; close it with the tail line) ---
 
-const USAGE = 'usage: re-review { pr: "owner/repo#N", post?: boolean, sharedAccount?: boolean }'
+const USAGE = 'usage: re-review { pr: "owner/repo#N", post?: boolean, sharedAccount?: boolean, notes?: "verdict" | "pr" }'
 if (!args || !args.pr) return USAGE
 const target = args.pr
 const post = args.post === true
 const shared = args.sharedAccount === true
+const notes = args.notes === undefined ? 'verdict' : args.notes
+if (notes !== 'pr' && notes !== 'verdict') return `notes must be "pr" or "verdict", got "${notes}"`
 
 const DOCS_FRAGMENT = 'Classify every user-visible change in this work with the Diataxis compass (action/cognition x study/work). For each, update or add exactly one page of that kind under docs/<kind>/, keep each page to one kind, title it by the project pattern, and link to the related pages of the other kinds. Report pages touched and any change you left undocumented and why.'
 
@@ -132,6 +134,8 @@ const REVIEW = { type: 'object', properties: {
   posted: { type: 'boolean' }, author_notified: { type: 'boolean' } }, required: ['verdict', 'blocking_open', 'summary'] }
 const DOCS_DONE = { type: 'object', properties: { pages_touched: { type: 'array', items: { type: 'string' } },
   owed_by_author: { type: 'array', items: { type: 'string' } } }, required: ['pages_touched'] }
+const PITFALLS = { type: 'object', properties: { pitfalls: { type: 'array', items: { type: 'string' } },
+  owed_by_author: { type: 'array', items: { type: 'string' } } }, required: ['pitfalls'] }
 const DOCS_CHECK = { type: 'object', properties: { ok: { type: 'boolean' }, problems: { type: 'array', items: { type: 'string' } } }, required: ['ok'] }
 
 phase('Collect')
@@ -151,13 +155,29 @@ const open = checked.filter(c => c.status === 'still-open' || c.status === 'regr
 const openBlocking = open.filter(c => c.severity === 'blocking')
 log(`${checked.length} threads checked; ${open.length} open (${openBlocking.length} blocking)`)
 
+const settled = checked.map(c => c.decision_settled).filter(Boolean)
+
+// notes "verdict": find the pitfalls before the review so they go in it; nothing is edited
+let pitfalls = null
+if (notes === 'verdict') {
+  phase('Do docs')
+  pitfalls = await agent(`Follow the review-profile skill, "Keeping it current", and follow-up-review "Documentation this work owes" for ${target}. Write any finding repeated from an earlier review as a pitfall line with a one-line check, in the shape of the project's review notes. Do not edit any file and do not open or update a pull request: return the lines, which go in this round's review. For each decision settled in this round, list the explanation page the author owes (do not write it in their PR). Thread results: ${JSON.stringify(checked.map(c => ({ file: c.file, subject: c.subject, severity: c.severity, status: c.status })))}. Settled decisions: ${JSON.stringify(settled)}`, { schema: PITFALLS, phase: 'Do docs', label: 'docs' })
+}
+const pitfallLines = (pitfalls && pitfalls.pitfalls) || []
+const owedPages = (pitfalls && pitfalls.owed_by_author) || []
+const inReview = pitfallLines.length || owedPages.length
+  ? ` End the summary with a "Pitfalls for the review notes" section listing these lines for the owner of the review notes to add: ${JSON.stringify(pitfallLines)}${owedPages.length ? `, and the explanation pages the author owes: ${JSON.stringify(owedPages)}` : ''}.`
+  : ''
+
 phase('Review')
-const review = await agent(`Write the single review for this round on ${target}, following the review-comments skill. Thread results: ${JSON.stringify(checked)}. Doc kinds owed but missing (each blocking): ${JSON.stringify(missingDocs)}.${st.merged ? ' The PR has ALREADY MERGED: do not leave findings only on it. Open a follow-up task for the owner listing every open finding (severity, file:line, failure, direction) with a link to the PR, tell the author and owner directly about any blocking item, and leave one PR comment saying where the follow-up lives. Verdict: follow-up-opened.' : ''}${shared ? ' Reviewer and author share one account: post a Comment review whose first line is "Passed" or "Changes needed".' : ''} ${post ? 'Post it, resolve the threads that are fixed or answered, and tell the author directly about any blocking item.' : 'Do not post or resolve anything; return the text.'}`, { schema: REVIEW, phase: 'Review', label: 'review' })
+const review = await agent(`Write the single review for this round on ${target}, following the review-comments skill. Thread results: ${JSON.stringify(checked)}. Doc kinds owed but missing (each blocking): ${JSON.stringify(missingDocs)}.${inReview}${st.merged ? ' The PR has ALREADY MERGED: do not leave findings only on it. Open a follow-up task for the owner listing every open finding (severity, file:line, failure, direction) with a link to the PR, tell the author and owner directly about any blocking item, and leave one PR comment saying where the follow-up lives. Verdict: follow-up-opened.' : ''}${shared ? ' Reviewer and author share one account: post a Comment review whose first line is "Passed" or "Changes needed".' : ''} ${post ? 'Post it, resolve the threads that are fixed or answered, and tell the author directly about any blocking item.' : 'Do not post or resolve anything; return the text.'}`, { schema: REVIEW, phase: 'Review', label: 'review' })
 if (!review) return { status: 'blocked', error: 'review agent returned no result; nothing posted', open_items: open }
 
-phase('Do docs')
-const settled = checked.map(c => c.decision_settled).filter(Boolean)
-const docs = await agent(`Follow the review-profile skill, "Keeping it current", and follow-up-review "Documentation this work owes" for ${target}. Add any finding repeated from an earlier review as a pitfall in the project's review notes (reference); one agent edits that page. For each decision settled in this round, list the explanation page the author owes (do not write it in their PR). Settled decisions: ${JSON.stringify(settled)}`, { schema: DOCS_DONE, phase: 'Do docs', label: 'docs' })
+let docs = pitfalls ? { pages_touched: [], owed_by_author: owedPages, pitfalls: pitfallLines } : null
+if (notes === 'pr') {
+  phase('Do docs')
+  docs = await agent(`Follow the review-profile skill, "Keeping it current", and follow-up-review "Documentation this work owes" for ${target}. Add any finding repeated from an earlier review as a pitfall in the project's review notes (reference); one agent edits that page; open or update a small docs PR in the project for it if the project requires PRs for docs. For each decision settled in this round, list the explanation page the author owes (do not write it in their PR). Settled decisions: ${JSON.stringify(settled)}`, { schema: DOCS_DONE, phase: 'Do docs', label: 'docs' })
+}
 
 phase('Check docs')
 const touched = (docs && docs.pages_touched) || []

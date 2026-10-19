@@ -27,6 +27,9 @@ and give the new verdict.
    Check the `follow_up` link: every open finding should be in a task for
    the owner, and the author and owner told directly about any blocker.
 7. **Check the docs step**: settled decisions are listed as explanation
-   pages the author owes; repeated findings were added to the review notes.
+   pages the author owes, and repeated findings are listed in the review
+   summary and the result's `docs.pitfalls`. Nothing is edited and no docs
+   PR is opened. To write the pitfalls into the review notes instead, add
+   `notes: "pr"`.
 
 See the [re-review workflow reference](../reference/workflow-re-review.md).

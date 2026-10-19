@@ -13,8 +13,9 @@ File: `workflows/review-pr.js`. Invoke as `/code-reviewer:review-pr` or
 | `focus` | string | no | | Extra focus passed to every pass |
 | `post` | boolean | no | `false` | Post the review and notify the author; otherwise return a draft |
 | `sharedAccount` | boolean | no | `false` | Reviewer and author share one account: Comment review starting "Passed" or "Changes needed" |
+| `notes` | `"pr"` or `"verdict"` | no | `"pr"` | Where repeated findings go. `"pr"`: the review notes page, with a docs PR if the project requires one. `"verdict"`: the review summary and the output; no file is edited and no PR is opened |
 
-Missing `pr` returns a usage string.
+Missing `pr` returns a usage string; any other `notes` value returns an error string.
 
 ## Phases
 
@@ -25,8 +26,8 @@ Missing `pr` returns a usage string.
 | Passes | 8 in parallel: design, correctness, tests, security, performance, readability, build-cross-pr, docs-hygiene | `review-pr`, `checklist.md`, `security-pass`, `performance-pass`, `docs-review` |
 | Verify | 1 per blocking or should-fix finding | refute attempt |
 | Review | 1 | `review-comments` |
-| Do docs | 1 | `review-profile` (pitfalls into review notes) |
-| Check docs | 0 or 1 | `docs-review` section 3 |
+| Do docs | 1 | `review-profile` (pitfalls into review notes); with `notes: "verdict"` it runs before Review and edits nothing |
+| Check docs | 0 or 1 | `docs-review` section 3; never with `notes: "verdict"` |
 
 ## Output
 
@@ -38,7 +39,8 @@ Missing `pr` returns a usage string.
 | `posted`, `author_notified` | Whether the review was posted and the author told directly |
 | `follow_up` | Link to the owner's follow-up task when the PR had already merged |
 | `docs_owed_missing` | Doc kinds the PR owes and lacks (each a blocking finding) |
-| `review_notes` | Review-notes pages updated |
+| `review_notes` | Review-notes pages updated; empty with `notes: "verdict"` |
+| `pitfalls`, `owed_by_author` | With `notes: "verdict"` only: the pitfall lines (each with its check) and the explanation pages the author owes, also listed in the review summary under "Pitfalls for the review notes" |
 | `docs_check` | `{ ok, problems }` for those pages |
 
 If triage does not return `review`, the output is `{ verdict, triage, note }`.
@@ -49,7 +51,7 @@ If triage does not return `review`, the output is `{ verdict, triage, note }`.
   `unverified`; it is never dropped.
 - A pass that returns no result is reported in coverage as not checked.
 - Optional, praise, question and note findings are not verified.
-- Only one agent edits the review notes page.
+- Only one agent edits the review notes page, and none does with `notes: "verdict"`.
 
 ## Run modes
 
